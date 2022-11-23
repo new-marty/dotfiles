@@ -19,9 +19,6 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 export LESS='-R'
 export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh  %s'
 
-# github
-export GITHUB_NPM_TOKEN='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8g'
-export GITHUB_NPM_TOKEN='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'
-
 # bat
-export BAT_THEME="Visual Studio Dark+"
+export BAT_CONFIG_PATH='~/dotfiles/bat/bat.cong'
+# export BAT_THEME="Visual Studio Dark+"
