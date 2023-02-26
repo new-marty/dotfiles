@@ -11,7 +11,7 @@ alias gcm='git commit -m'
 alias gca='git commit --amend'
 alias gb='git branch -m'
 alias gp='git push origin head'
-alias sw='git switch -c'
+alias sw='git switch'
 
 # ls
 alias ls="exa --icons"

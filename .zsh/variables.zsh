@@ -22,3 +22,6 @@ export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh  %s'
 # bat
 export BAT_CONFIG_PATH='~/dotfiles/bat/bat.cong'
 # export BAT_THEME="Visual Studio Dark+"
+
+# chrome
+export GOOGLE_CHROME_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
