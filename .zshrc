@@ -3,15 +3,6 @@
 
 ZSH_DIR="${HOME}/.zsh"
 
-# .zshがディレクトリで、読み取り、実行、が可能なとき
-if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
-  # zshディレクトリより下にある、.zshファイルの分、繰り返す
-  for file in ${ZSH_DIR}/**/*.zsh; do
-    # 読み取り可能ならば実行する
-    [ -r $file ] && source $file
-  done
-fi
-
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -70,3 +61,12 @@ export PATH="$HOME/.amplify/bin:$PATH"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# .zshがディレクトリで、読み取り、実行、が可能なとき
+if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
+  # zshディレクトリより下にある、.zshファイルの分、繰り返す
+  for file in ${ZSH_DIR}/**/*.zsh; do
+    # 読み取り可能ならば実行する
+    [ -r $file ] && source $file
+  done
+fi
