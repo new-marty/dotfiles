@@ -49,6 +49,9 @@ alias dcu='docker-compose up -d'
 # python
 alias p='python3'
 
+# terraform
+alias tf='terraform'
+
 # personal
 alias asu='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/ASU'
 alias rakweb='node ~/dev/automation/rakuten/rakutenWeb.js'

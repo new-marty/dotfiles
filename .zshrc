@@ -64,3 +64,9 @@ setopt auto_cd
 
 # pyenv
 eval "$(pyenv init -)"
+
+# Added by Amplify CLI binary installer
+export PATH="$HOME/.amplify/bin:$PATH"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
