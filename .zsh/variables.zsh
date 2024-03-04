@@ -25,6 +25,21 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Java
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export JAVA_HOME=$(/usr/libexec/java_home -v 2.0)
+
+# dotnet
+export PATH="/opt/homebrew/opt/dotnet@6/bin:$PATH"
+
+# mongoDB
+export PATH="/opt/homebrew/opt/mongodb-community@4.2/bin:$PATH"
+
+# php
+export PATH="/usr/local/opt/php/bin:$PATH"
+
+# mysql
+# export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH"
+# export LDFLAGS="-L/opt/homebrew/opt/mysql@5.7/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/mysql@5.7/include"
 
 # dotnet
 export PATH="/opt/homebrew/opt/dotnet@6/bin:$PATH"

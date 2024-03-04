@@ -14,7 +14,7 @@ alias gp='git push origin head'
 alias sw='git switch'
 
 # ls
-alias ls="exa --icons"
+alias ls="eza --icons"
 alias ll="ls -la"
 alias la="ls -l"
 alias l1="ls -1"

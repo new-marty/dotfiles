@@ -70,3 +70,5 @@ if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
     [ -r $file ] && source $file
   done
 fi
+
+PATH=~/.console-ninja/.bin:$PATH
