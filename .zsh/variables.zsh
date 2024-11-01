@@ -43,3 +43,8 @@ export PATH="/usr/local/opt/php/bin:$PATH"
 
 # dotnet
 export PATH="/opt/homebrew/opt/dotnet@6/bin:$PATH"
+
+# python
+export PATH="/opt/homebrew/lib/python3.12/site-packages/pip:$PATH"
+
+export CLOUDFLARE_API_TOKEN="kIKI7QjSbRNV_tSqiwRIbDOJGMrbL_IYq6pC8s4h"
