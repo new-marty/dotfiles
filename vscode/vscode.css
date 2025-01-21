@@ -93,3 +93,11 @@
 .command-center-center {
     width: auto !important;
 }
+
+.titlebar-center {
+    display: none !important;
+}
+
+.editor-actions {
+    display: none;
+}
