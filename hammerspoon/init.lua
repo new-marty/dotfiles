@@ -5,45 +5,56 @@
 
 
 
------------------------------------
--- Disable Hammerspoon animations
------------------------------------
+----------------------------------------
+--  Instant, no animations
+----------------------------------------
 hs.window.animationDuration = 0
 
------------------------------------
--- Toggle function for Ghostty
------------------------------------
-local function toggleGhostty()
-  -- Helper that positions and shows Ghostty full-screen on mouse screen
-  local function showGhosttyFull()
-    local gApp = hs.application.find("Ghostty")
-    if not gApp then return end
+----------------------------------------
+--  Load the Spaces module
+----------------------------------------
+local spaces = require("hs.spaces")
 
-    -- If there's no main window yet, do nothing
-    local win = gApp:mainWindow()
-    if not win then return end
+----------------------------------------
+--  Helper: show Ghostty in current space
+----------------------------------------
+local function showGhosttyFull()
+  local gApp = hs.application.find("Ghostty")
+  if not gApp then return end
 
-    -- Get the screen under the mouse
-    local screenFrame = hs.mouse.getCurrentScreen():frame()
-    -- Resize window to fill entire screen
-    win:setFrame(screenFrame, 0)  -- 0 = no animation
+  local win = gApp:mainWindow()
+  if not win then return end
 
-    -- Make it visible and focused
-    gApp:unhide()
-    gApp:activate()
+  -- Move window to the currently focused Space
+  local currentSpace = spaces.focusedSpace()
+  spaces.moveWindowToSpace(win, currentSpace)
+
+  -- If minimized, unminimize
+  if win:isMinimized() then
+    win:unminimize()
   end
 
-  -- See if Ghostty is running
+  -- If app is hidden, unhide
+  gApp:unhide()
+
+  -- Resize to fill the screen where the mouse is
+  local screenFrame = hs.mouse.getCurrentScreen():frame()
+  win:setFrame(screenFrame)
+
+  -- Raise and focus
+  win:raise()
+  win:focus()
+end
+
+----------------------------------------
+--  Main toggle function for Ghostty
+----------------------------------------
+local function toggleGhostty()
   local ghosttyApp = hs.application.find("Ghostty")
 
-  -----------------------------------------
-  -- 1) If Ghostty is NOT running at all
-  -----------------------------------------
+  -- 1) If Ghostty is NOT running, launch it
   if not ghosttyApp then
-    -- Launch it
     hs.application.launchOrFocus("Ghostty")
-
-    -- Wait until the main window actually exists, then resize it
     hs.timer.waitUntil(
       function()
         local a = hs.application.find("Ghostty")
@@ -56,44 +67,46 @@ local function toggleGhostty()
     return
   end
 
-  ------------------------------------------------
-  -- 2) Ghostty is running. Is its main window visible?
-  ------------------------------------------------
+  -- 2) Ghostty is running. Check the main window.
   local mainWin = ghosttyApp:mainWindow()
-  if mainWin and mainWin:isVisible() then
-    -- Hide the *entire application* (like Cmd+H)
+  if not mainWin then
+    -- The app is running but has no main window (rare timing case)
+    ghosttyApp:activate()
+    hs.timer.waitUntil(
+      function()
+        local a = hs.application.find("Ghostty")
+        return a and a:mainWindow()
+      end,
+      function()
+        showGhosttyFull()
+      end
+    )
+    return
+  end
+
+  -- 3) We have a main window; is it hidden/minimized or not?
+  local currentSpace = spaces.focusedSpace()
+  local winSpaces = spaces.windowSpaces(mainWin) or {}
+  local winSpace = winSpaces[1]
+
+  local isAppHidden = ghosttyApp:isHidden()      -- true if "Cmd+H" hidden
+  local isWindowMin = mainWin:isMinimized()
+
+  if (winSpace == currentSpace) and (not isWindowMin) and (not isAppHidden) then
+    -- If the window is on our current space and visible, hide the entire app
     ghosttyApp:hide()
   else
-    ------------------------------------------------
-    -- 2a) Window exists but is minimized/offscreen
-    -- or no main window yet
-    ------------------------------------------------
-    -- We’ll position it full-screen on the mouse screen
-    -- after the window appears (if needed).
-    if mainWin then
-      -- Window object is real, just not visible
-      showGhosttyFull()
-    else
-      -- There's no main window yet (rare timing case):
-      -- Activate the app, then wait for the window
-      ghosttyApp:activate()
-      hs.timer.waitUntil(
-        function()
-          local a = hs.application.find("Ghostty")
-          return a and a:mainWindow()
-        end,
-        function()
-          showGhosttyFull()
-        end
-      )
-    end
+    -- If it's hidden, in another space, or minimized, show it on *our* space
+    showGhosttyFull()
   end
 end
 
------------------------------------
--- Bind F1 to toggle Ghostty
------------------------------------
+----------------------------------------
+--  Bind F1 to toggle Ghostty
+----------------------------------------
 hs.hotkey.bind({}, "F1", toggleGhostty)
+
+
 
 
 

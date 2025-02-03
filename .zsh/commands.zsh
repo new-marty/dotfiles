@@ -22,3 +22,15 @@ function cdf() {
         return 1
     fi
 }
+
+# *** brew ***
+brew() {
+    # Run the original brew command
+    command brew "$@"
+
+    # If the command was an install or upgrade, update the Brewfile
+    if [[ "$1" == "install" || "$1" == "upgrade" || "$1" == "uninstall" ]]; then
+        echo "Updating Brewfile..."
+        command brew bundle dump --force --file=~/dotfiles/Brewfile
+    fi
+}
