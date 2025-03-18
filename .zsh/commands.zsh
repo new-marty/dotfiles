@@ -34,3 +34,18 @@ brew() {
         command brew bundle dump --force --file=~/dotfiles/Brewfile
     fi
 }
+
+# *** fcat ***
+fcat() {
+    if [ -z "$1" ]; then
+        echo "Usage: fcat <directory>"
+        return 1
+    fi
+
+    local dir="$1"
+    find "$dir" -type f | while IFS= read -r file; do
+        echo "File: $file"
+        cat "$file"
+        echo "=================================================="
+    done
+}
