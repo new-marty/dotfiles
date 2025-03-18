@@ -24,11 +24,11 @@ alias cat="ccat"
 alias diff='colordiff -u'
 
 # alias
-alias code='code .'
 alias rs='exec $SHELL -l'
-alias ....='../..'
 alias sz='source ~/.zshrc'
-alias c='clear'
+
+# code
+alias c='cursor'
 
 # pnpm
 alias pp="pnpm"
