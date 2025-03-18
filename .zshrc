@@ -1,26 +1,26 @@
-# Amazon Q pre block. Keep at the top of this file.
+# Amazon Q pre block
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+
+# Custom scripts directory
 ZSH_DIR="${HOME}/.zsh"
 
-# Source Prezto.
+# Load Prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Shell Options
+# Shell behavior options
 unsetopt correct
 unsetopt correctall
 DISABLE_CORRECTION="true"
-
-# Completion Settings
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*:default' menu select=1
-
-# Directory Stack
 setopt auto_pushd
 setopt auto_cd
 
-# History Settings
+# Completion settings
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*:default' menu select=1
+
+# History settings
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
@@ -30,14 +30,18 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt hist_reduce_blanks
 
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Development environment initialization
+eval "$(pyenv init -)"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
-# Terraform completion
+# Tool configurations
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+eval $(thefuck --alias)
 
-# Source all .zsh files in ZSH_DIR
+# Load custom scripts
 if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
   for file in ${ZSH_DIR}/**/*.zsh; do
     [ -r $file ] && source $file
@@ -46,11 +50,22 @@ fi
 
 # Additional tools
 [[ -f "$HOME/fig-export/dotfiles/dotfile.zsh" ]] && builtin source "$HOME/fig-export/dotfiles/dotfile.zsh"
-eval $(thefuck --alias)
 
-# NVM initialization (runtime configuration, not environment variables)
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+# Compile zsh completion cache in background
+{
+  zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/prezto/zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    zcompile "$zcompdump"
+  fi
+} &
+
+# Login message
+if [[ -o INTERACTIVE && -t 2 ]]; then
+  if (($ + commands[fortune])); then
+    fortune -s
+    print
+  fi
+fi >&2
 
 # Amazon Q post block
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
