@@ -10,11 +10,10 @@ bindkey '^r' peco-select-history
 
 # search a destination from cdr list
 function peco-get-destination-from-cdr() {
-  cdr -l | \
-  sed -e 's/^[[:digit:]]*[[:blank:]]*//' | \
-  peco --query "$LBUFFER"
+  cdr -l |
+    sed -e 's/^[[:digit:]]*[[:blank:]]*//' |
+    peco --query "$LBUFFER"
 }
-
 
 ### 過去に移動したことのあるディレクトリを選択。ctrl-uにバインド
 function peco-cdr() {
