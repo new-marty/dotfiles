@@ -10,9 +10,12 @@ export VISUAL='nano'
 export PAGER='less'
 [[ "$OSTYPE" == darwin* ]] && export BROWSER='open'
 
+# Load secrets if the file exists
+[[ -f "$HOME/dotfiles/.secrets" ]] && source "$HOME/dotfiles/.secrets"
+
 # Less configuration
-export LESS='-R'                                                # -R: Allow ANSI color escape sequences
-export LESSOPEN='| /opt/homebrew/bin/src-hilite-lesspipe.sh %s' # Syntax highlighting in less
+export LESS='-R'
+export LESSOPEN='| /opt/homebrew/bin/src-hilite-lesspipe.sh %s'
 
 # Application configurations
 export BAT_CONFIG_PATH="$HOME/dotfiles/bat/bat.conf"
