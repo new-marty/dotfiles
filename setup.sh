@@ -4,6 +4,7 @@
 echo "Setting up dotfiles..."
 ln -svf ~/dotfiles/.zshenv ~/.zshenv
 ln -svf ~/dotfiles/.zshrc ~/.zshrc
+ln -svf ~/dotfiles/.zprofile ~/.zprofile
 echo "Done setting up dotfiles!"
 
 # Setup Brewfile

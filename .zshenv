@@ -21,17 +21,15 @@ export LESSOPEN='| /opt/homebrew/bin/src-hilite-lesspipe.sh %s'
 export BAT_CONFIG_PATH="$HOME/dotfiles/bat/bat.conf"
 export GOOGLE_CHROME_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
-# System paths (base)
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
-
 # Homebrew
+export PATH="/opt/homebrew/bin:$PATH"
 eval $(/opt/homebrew/bin/brew shellenv)
 
 # Development languages
 # Python
+eval "$(pyenv init --path)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
 
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home -v 2.0)
@@ -39,7 +37,8 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 # Node.js
 export NVM_DIR="$HOME/.nvm"
-export PATH="$HOME/.nodebrew/current/bin:$PATH"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # .NET
 export PATH="/opt/homebrew/opt/dotnet@6/bin:$PATH"

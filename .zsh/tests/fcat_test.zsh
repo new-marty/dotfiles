@@ -132,4 +132,6 @@ main() {
 }
 
 # Run the tests
-main
+if ! (return 0 2>/dev/null); then
+    main
+fi

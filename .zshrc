@@ -7,6 +7,7 @@ DISABLE_CORRECTION="true"
 setopt auto_pushd auto_cd
 
 # Completion settings
+autoload -U compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
 
@@ -16,17 +17,9 @@ export HISTSIZE=100000
 export SAVEHIST=100000
 setopt share_history hist_ignore_dups hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
 
-# Development environment initialization
-# Initialize pyenv
-eval "$(pyenv init -)"
-# Initialize nvm (Node Version Manager)
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-
 # Tool configurations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
 eval "$(thefuck --alias)"
 
 # Load Sheldon (plugins are managed via ~/.config/sheldon/sheldon.toml)
@@ -45,3 +38,5 @@ unset cache_dir sheldon_cache sheldon_toml
 
 # Amazon Q post block (if needed)
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
